@@ -82,7 +82,7 @@ import {
 } from "react-leaflet";
 import L from "leaflet";
 import { jsPDF } from "jspdf";
-
+import DroneClub from "./components/club/DroneClub";
 const ADMIN_LOGIN_API = "/api/admin-auth.php";
 const COMPLETED_FLIGHTS_API = "/api/completed-flights.php";
 const DESIGN_SETTINGS_API = "/api/design-settings.php";
@@ -6038,6 +6038,7 @@ y = 22;
   const [activePage, setActivePage] = useState(() => {
     const currentHash = String(window.location.hash || "").toLowerCase();
     if (currentHash.startsWith("#behoerde")) return "authority";
+    if (currentHash.startsWith("#club") || currentHash.startsWith("#drohnenclub")) return "club";
     if (currentHash.startsWith("#galerie") || currentHash.startsWith("#gallery")) return "gallery";
     if (currentHash.startsWith("#blog")) return "blog";
     if (currentHash.startsWith("#locations")) return "locations";
@@ -15212,6 +15213,7 @@ function AdminMenuControls({ showSource = false }) {
 
             <div className="menuBar">
               <button type="button" onClick={() => setActivePage("home")}>Zur Startseite</button>
+              <button type="button" onClick={() => { window.location.hash = "club"; setActivePage("club"); }}>Drohnenclub</button>
               <button type="button" onClick={() => { window.location.hash = "behoerde"; setActivePage("authority"); }}>Behörde</button>
             </div>
 
@@ -15682,13 +15684,39 @@ if (activePage === "authority") {
   }
 
 
+  if (activePage === "club") {
+    return (
+      <div className={appClassName} style={templateColorStyle}>
+        <div className="page">
+          <nav className="nav" style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:"18px",flexWrap:"wrap"}}>
+            <a href="https://www.flymonitor.de/" className="brand" style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }}><div className="brandicon"><img src="/logo_neu.png" alt="PX Logo" style={{ width: "200px", height: "84px", objectFit: "contain" }} /></div><div><strong>flymonitor.de</strong><span>Drohnenclub</span></div></a>
+            <div className="menuBar">
+              <button type="button" onClick={() => { window.location.hash = ""; setActivePage("home"); window.scrollTo({ top: 0, behavior: "smooth" }); }}>Startseite</button>
+              <button type="button" onClick={() => { window.location.hash = "locations"; setActivePage("locations"); window.scrollTo({ top: 0, behavior: "smooth" }); }}>Locations</button>
+              <button type="button" onClick={() => { window.location.hash = "blog"; setActivePage("blog"); window.scrollTo({ top: 0, behavior: "smooth" }); }}>Blog</button>
+              <button type="button" onClick={() => { window.location.hash = "gallery"; setActivePage("gallery"); window.scrollTo({ top: 0, behavior: "smooth" }); }}>Galerie</button>
+              <button type="button" onClick={() => { window.location.hash = "behoerde"; setActivePage("authority"); window.scrollTo({ top: 0, behavior: "smooth" }); }}>Behörde</button>
+            </div>
+            <AdminMenuControls />
+          </nav>
+
+          <section className="logbookWide">
+            <div className="card">
+              <DroneClub />
+            </div>
+          </section>
+        </div>
+      </div>
+    );
+  }
+
   if (activePage === "locations") {
     return (
       <div className={appClassName} style={templateColorStyle}>
         <div className="page">
           <nav className="nav" style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:"18px",flexWrap:"wrap"}}>
             <a href="https://www.flymonitor.de/" className="brand" style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }}><div className="brandicon"><img src="/logo_neu.png" alt="PX Logo" style={{ width: "200px", height: "84px", objectFit: "contain" }} /></div><div><strong>flymonitor.de</strong><span>Locations</span></div></a>
-            <div className="menuBar"><button type="button" onClick={() => setActivePage("locations")}>Locations</button><button type="button" onClick={() => setActivePage("blog")}>Blog</button><button type="button" onClick={() => { window.location.hash = "gallery"; setActivePage("gallery"); }}>Galerie</button><button type="button" onClick={() => setActivePage("authority")}>Behörde</button></div>
+            <div className="menuBar"><button type="button" onClick={() => setActivePage("locations")}>Locations</button><button type="button" onClick={() => setActivePage("blog")}>Blog</button><button type="button" onClick={() => { window.location.hash = "gallery"; setActivePage("gallery"); }}>Galerie</button><button type="button" onClick={() => { window.location.hash = "club"; setActivePage("club"); }}>Drohnenclub</button><button type="button" onClick={() => setActivePage("authority")}>Behörde</button></div>
             <AdminMenuControls />
           </nav>
 
@@ -15787,7 +15815,7 @@ if (activePage === "authority") {
         <div className="page">
           <nav className="nav" style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:"18px",flexWrap:"wrap"}}>
             <a href="https://www.flymonitor.de/" className="brand" style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }}><div className="brandicon"><img src="/logo_neu.png" alt="PX Logo" style={{ width: "200px", height: "84px", objectFit: "contain" }} /></div><div><strong>flymonitor.de</strong><span>Blog</span></div></a>
-            <div className="menuBar"><button type="button" onClick={() => setActivePage("locations")}>Locations</button><button type="button" onClick={() => setActivePage("blog")}>Blog</button><button type="button" onClick={() => { window.location.hash = "gallery"; setActivePage("gallery"); }}>Galerie</button><button type="button" onClick={() => setActivePage("authority")}>Behörde</button></div>
+            <div className="menuBar"><button type="button" onClick={() => setActivePage("locations")}>Locations</button><button type="button" onClick={() => setActivePage("blog")}>Blog</button><button type="button" onClick={() => { window.location.hash = "gallery"; setActivePage("gallery"); }}>Galerie</button><button type="button" onClick={() => { window.location.hash = "club"; setActivePage("club"); }}>Drohnenclub</button><button type="button" onClick={() => setActivePage("authority")}>Behörde</button></div>
             <AdminMenuControls />
           </nav>
 
@@ -15893,7 +15921,7 @@ if (activePage === "authority") {
         <div className="page">
           <nav className="nav" style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:"18px",flexWrap:"wrap"}}>
             <a href="https://www.flymonitor.de/" className="brand" style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }}><div className="brandicon"><img src="/logo_neu.png" alt="PX Logo" style={{ width: "200px", height: "84px", objectFit: "contain" }} /></div><div><strong>flymonitor.de</strong><span>Galerie</span></div></a>
-            <div className="menuBar"><button type="button" onClick={() => setActivePage("locations")}>Locations</button><button type="button" onClick={() => setActivePage("blog")}>Blog</button><button type="button" onClick={() => { window.location.hash = "gallery"; setActivePage("gallery"); }}>Galerie</button><button type="button" onClick={() => setActivePage("authority")}>Behörde</button></div>
+            <div className="menuBar"><button type="button" onClick={() => setActivePage("locations")}>Locations</button><button type="button" onClick={() => setActivePage("blog")}>Blog</button><button type="button" onClick={() => { window.location.hash = "gallery"; setActivePage("gallery"); }}>Galerie</button><button type="button" onClick={() => { window.location.hash = "club"; setActivePage("club"); }}>Drohnenclub</button><button type="button" onClick={() => setActivePage("authority")}>Behörde</button></div>
             <AdminMenuControls />
           </nav>
 
@@ -16049,7 +16077,7 @@ if (activePage === "authority") {
               <span>OpenStreetMap · Open-Meteo · OpenSky</span>
             </div>
           </a>
-          <div className="menuBar"><button type="button" onClick={() => { setActivePage("locations"); window.scrollTo({ top: 0, behavior: "smooth" }); }}>Locations</button><button type="button" onClick={() => { setActivePage("blog"); window.scrollTo({ top: 0, behavior: "smooth" }); }}>Blog</button><button type="button" onClick={() => { window.location.hash = "gallery"; setActivePage("gallery"); window.scrollTo({ top: 0, behavior: "smooth" }); }}>Galerie</button><button type="button" onClick={() => { window.location.hash = "behoerde"; setActivePage("authority"); }}>Behörde</button></div>
+          <div className="menuBar"><button type="button" onClick={() => { setActivePage("locations"); window.scrollTo({ top: 0, behavior: "smooth" }); }}>Locations</button><button type="button" onClick={() => { setActivePage("blog"); window.scrollTo({ top: 0, behavior: "smooth" }); }}>Blog</button><button type="button" onClick={() => { window.location.hash = "gallery"; setActivePage("gallery"); window.scrollTo({ top: 0, behavior: "smooth" }); }}>Galerie</button><button type="button" onClick={() => { window.location.hash = "club"; setActivePage("club"); window.scrollTo({ top: 0, behavior: "smooth" }); }}>Drohnenclub</button><button type="button" onClick={() => { window.location.hash = "behoerde"; setActivePage("authority"); }}>Behörde</button></div>
           <AdminMenuControls showSource />
         </nav>
 
@@ -18087,8 +18115,6 @@ function ContractFormSafeProfessionalStyles() {
     `}</style>
   );
 }
-
-
 export default function App() {
   return (
     <AppErrorBoundary>
@@ -18097,5 +18123,4 @@ export default function App() {
     </AppErrorBoundary>
   );
 }
-
 
